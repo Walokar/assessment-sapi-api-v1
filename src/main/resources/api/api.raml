@@ -1,0 +1,63 @@
+#%RAML 1.0
+title: assesment-sapi-raml
+description: This Raml is for the assesment sapi API
+version: 1.0.0
+protocols:
+  - HTTP
+  - HTTPS
+
+uses:
+traits:
+  common-Header: !include /exchange_modules/7c07f543-6d00-433f-947f-08f2736c27c4/common-fragments-investment/1.0.9/traits/common-header-trait.raml
+  common-error-reaponses: !include /exchange_modules/7c07f543-6d00-433f-947f-08f2736c27c4/common-fragments-investment/1.0.9/traits/common-error-responses-trait.raml
+
+types:
+  get-assessments-response: !include /exchange_modules/7c07f543-6d00-433f-947f-08f2736c27c4/common-fragments-investment/1.0.9/dataTypes/get-assessment-response-dataType.raml
+  post-assesssments-request: !include /exchange_modules/7c07f543-6d00-433f-947f-08f2736c27c4/common-fragments-investment/1.0.9/dataTypes/post-assessments-request-dataType.raml
+  post-assesssments-response: !include /exchange_modules/7c07f543-6d00-433f-947f-08f2736c27c4/common-fragments-investment/1.0.9/dataTypes/post-asssesments-response-dataType.raml
+
+
+
+/assessments:
+  description: This resources is used for assessment to check fund eligibality and submit fund eligibality assessments.
+  get:
+    description: This API will retrieve set of questions answer from salesforce system.
+    is:
+      - common-Header
+      - common-error-reaponses
+    
+    responses:
+      200:
+        body:
+          application/json:
+            type: get-assessments-response
+            example: !include examples/get-assessments-response-example-api.json    
+  post:
+    description: This API will Record set of questions answer to salesforce system.
+    is:
+      - common-Header
+      - common-error-reaponses
+    body:
+      application/json:
+        type: post-assesssments-request
+        example: !include examples/post-assessments-request-example-api.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: post-assesssments-response
+            example: !include examples/post-assessments-response-example-api.json
+               
+                  
+                  
+
+
+
+                  
+            
+                                          
+                    
+            
+      
+
+          
