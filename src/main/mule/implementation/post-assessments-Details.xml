@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<sub-flow name="Post-assessments-Details" doc:id="15eedcec-b398-43d5-a139-e40e7143628c" >
+		<ee:transform doc:name="Post Details Transform Message" doc:id="5bc9f36d-5fd1-41f6-8d91-8b851934ca7f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+[{
+	userId__c: vars.requestMessage.payload.recordAssessmentRequest.userDetails.userId,
+	Name: vars.requestMessage.payload.recordAssessmentRequest.userDetails.name,
+	question1__c: vars.requestMessage.payload.recordAssessmentRequest.assessmentdetails[0].question,
+    answer1__c: vars.requestMessage.payload.recordAssessmentRequest.assessmentdetails[0].answer,
+    question2__c: vars.requestMessage.payload.recordAssessmentRequest.assessmentdetails[1].question,
+	answer2__c: vars.requestMessage.payload.recordAssessmentRequest.assessmentdetails[1].answer,
+	submitionDateTime__c: vars.requestMessage.payload.recordAssessmentRequest.submitionDateTime
+
+}]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Request SFDC Logger" doc:id="cb3fe4b6-2adb-4d4a-8b9d-bba413b530cc" message="#[%dw 2.0 &#10;output application/json indent = false &#10;--- &#10;{ 	&#10;    TimeStamp: now(), &#10;    transactionId: vars.requestMessage.attributes.headers.'x-fms-transactionId',&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Post Assessment Details&quot;, 	&#10;    Category:  &quot;Fund Management&quot;,	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;Salesforce&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;Request SFDC&quot; &#10;}]" />
+		<salesforce:upsert objectType="assessmentRecords__c" externalIdFieldName="userId__c" doc:name="Upsert SFDC Post Details Upsert" doc:id="231bdc58-3c4d-42ea-9d10-e5abf5bcdfb9" config-ref="Salesforce_Config"/>
+		<logger level="INFO" doc:name="Response SFDC Logger" doc:id="47bcf3ee-14f2-47a9-83ba-c1162d2f6e4d" message="#[%dw 2.0 &#10;output application/json indent = false &#10;--- &#10;{ 	&#10;    TimeStamp: now(), &#10;    transactionId: vars.requestMessage.attributes.headers.'x-fms-transactionId',&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Post Assessment Details&quot;, 	&#10;    Category:  &quot;Fund Management&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;Salesforce&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;Response SFDC&quot; &#10;}]" />
+		<ee:transform doc:name="postDetails Response Transform Message" doc:id="cb6ff6a7-2dec-4a2e-9dea-f7c46c970f9d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "recordAssessmentResponse": {
+    "eventInstanceId": vars.requestMessage.attributes.headers.'x-fms-transactionId' ,
+    "status": "success"
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

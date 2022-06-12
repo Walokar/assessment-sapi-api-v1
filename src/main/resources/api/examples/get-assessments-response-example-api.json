@@ -1,8 +1,9 @@
 {
-  "retrieveAssessmnetResponce": [
+  "retrieveAssessmentResponse": [
     {
       "question": "What Is an Investment Objective",
-      "answer": [
+      "answer": "High Risk",
+      "option": [
         {
           "option": "Option1"
         },
