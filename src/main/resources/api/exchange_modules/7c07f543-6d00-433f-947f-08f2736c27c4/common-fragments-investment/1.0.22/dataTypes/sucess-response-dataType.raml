@@ -1,0 +1,13 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  eventInstanceId:
+    type: string
+    required: true
+    minLength: 36
+    maxLength: 36
+    example: "123456789123456789123456789123456789"
+  status:
+    type: string
+    required: true
+    example: "success"

@@ -1,0 +1,22 @@
+{
+  "retrieveAssessmentResponse": [
+    {
+      "question": "What Is an Investment Objective",
+      "answer": "High Risk",
+      "option": [
+        {
+          "option": "Option1"
+        },
+        {
+          "option": "Option1"
+        },
+        {
+          "option": "Option1"
+        },
+        {
+          "option": "Option1"
+        }
+      ]
+    }
+  ]
+}
