@@ -1,0 +1,13 @@
+#%RAML 1.0 Library
+types:
+  get-assessments-response: !include dataTypes/get-assessment-response-dataType.raml
+  post-assesssments-request: !include dataTypes/post-assessments-request-dataType.raml
+  post-assesssments-response: !include dataTypes/post-asssesments-response-dataType.raml
+  submission-dateTime: !include dataTypes/subimission-dateTime-dataType.raml
+  user-Details-dataType: !include dataTypes/user-Details-dataType.raml
+  assessments-details-qa: !include dataTypes/assessments-details-qa-dataType.raml
+traits:
+  common-Header: !include traits/common-header-trait.raml
+  common-error-reaponses: !include traits/common-error-responses-trait.raml
+
+

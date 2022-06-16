@@ -1,0 +1,17 @@
+#%RAML 1.0 DataType
+
+uses:
+  common-library: /exchange_modules/7c07f543-6d00-433f-947f-08f2736c27c4/common-fragments-investment/1.0.22/common-fragments-investment.raml
+
+type: object
+properties:
+  assessmentReportResponse:
+    type: object
+    properties:
+      userDetails:
+        required: true
+        type: common-library.user-Details-dataType
+      assessmentdetails:
+        type: common-library.assessments-details-qa
+      submitionDateTime:
+        type: common-library.submission-dateTime

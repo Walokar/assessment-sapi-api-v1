@@ -18,8 +18,7 @@ output application/java
     answer1__c: vars.requestMessage.payload.recordAssessmentRequest.assessmentdetails[0].answer,
     question2__c: vars.requestMessage.payload.recordAssessmentRequest.assessmentdetails[1].question,
 	answer2__c: vars.requestMessage.payload.recordAssessmentRequest.assessmentdetails[1].answer,
-	submitionDateTime__c: vars.requestMessage.payload.recordAssessmentRequest.submitionDateTime
-
+	submitionDateTime__c: (now() >> "IST") as String {format: "dd-MM-yyyy'T'hh:mm:ss"}
 }]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
